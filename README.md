@@ -9,8 +9,8 @@ This project monitors real-time SJ train departures from Enköping C heading to 
 ## How It Works
 
 ```
-Trafikverket API  →  Monitor Script  →  Push Notification  →  📱 Your Phone
-(real-time data)     (polls every 5m)    (ntfy / Pushover)
+Trafikverket API  →  Monitor Script  →  Push Notification  →  Your Phone
+
 ```
 
 ### Data Source
@@ -25,30 +25,12 @@ Trafikverket API  →  Monitor Script  →  Push Notification  →  📱 Your Ph
   - **Delay:** `EstimatedTimeAtLocation` differs from `AdvertisedTimeAtLocation`
   - **Cancellation:** `Canceled = true`
 
-### Notification Services
-
-| Service | Cost | Notes |
-|---------|------|-------|
-| [ntfy.sh](https://ntfy.sh) | Free | Open source, no account needed, Android & iOS apps |
-| [Pushover](https://pushover.net) | $5 one-time | Reliable, polished native apps |
-| [Pushbullet](https://pushbullet.com) | Free (100/mo) | Browser extension + mobile app |
-
-### Hosting Options
-
-| Option | Cost | Notes |
-|--------|------|-------|
-| Raspberry Pi | ~Free | Low power, always on |
-| Free cloud tier (Oracle Cloud, Fly.io) | Free | No hardware needed |
-| GitHub Actions (cron) | Free (public repos) | Runs on a schedule |
-| VPS (Hetzner, DigitalOcean) | ~$4/mo | Full control |
-
 ## Getting Started
 
 ### Prerequisites
 
 1. **Trafikverket API Key** — Register at [api.trafikinfo.trafikverket.se](https://api.trafikinfo.trafikverket.se/)
-2. **Notification service** — Install [ntfy](https://ntfy.sh) (recommended) on your phone and pick a secret topic name
-3. **Python 3.8+** with `requests` installed
+2. **Notification service** — Install [ntfy](https://ntfy.sh)
 
 ### Station Codes
 
@@ -95,7 +77,3 @@ Trafikverket API  →  Monitor Script  →  Push Notification  →  📱 Your Ph
 ## License
 
 MIT
-
-## Status
-
-🚧 **Work in progress** — code coming soon.

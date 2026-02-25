@@ -34,8 +34,22 @@ Launch app  →  Fetch from Trafikverket API  →  Print categorized report  →
 
 ### Prerequisites
 
-1. **Trafikverket API Key** — Register at [api.trafikinfo.trafikverket.se](https://api.trafikinfo.trafikverket.se/)
+1. **Trafikverket API Key** — Register at [data.trafikverket.se](https://data.trafikverket.se/) to obtain a free API key
 2. **Notification service** — Install [ntfy](https://ntfy.sh)
+
+### Running
+
+```bash
+# Set your Trafikverket API key
+export TRAFIKVERKET_API_KEY="your-api-key-here"
+
+# Optional: set a custom ntfy topic (defaults to https://ntfy.sh/sj-train-delays)
+export NTFY_TOPIC="https://ntfy.sh/my-sj-alerts"
+
+# Compile and run
+javac -d out src/*.java
+java -cp out App
+```
 
 ### Station Codes
 

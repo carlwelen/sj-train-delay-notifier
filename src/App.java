@@ -27,7 +27,7 @@ public class App {
         String apiKey = System.getenv("TRAFIKVERKET_API_KEY");
         if (apiKey == null || apiKey.isBlank()) {
             System.err.println("Error: TRAFIKVERKET_API_KEY environment variable is not set.");
-            System.err.println("Register for a free API key at https://api.trafikinfo.trafikverket.se/");
+            System.err.println("Register for a free API key at https://data.trafikverket.se/");
             System.exit(1);
         }
 
@@ -65,7 +65,8 @@ public class App {
             }
 
         } catch (Exception e) {
-            System.err.println("Error fetching departures: " + e.getMessage());
+            String msg = e.getMessage() != null ? e.getMessage() : e.getClass().getName();
+            System.err.println("Error fetching departures: " + msg);
             System.exit(1);
         }
     }

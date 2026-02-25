@@ -6,9 +6,9 @@ Run once to get a categorized delay report for SJ trains from **Enköping C → 
 
 This application fetches real-time SJ train departures from Enköping C to Stockholm C using the [Trafikverket Open API](https://api.trafikinfo.trafikverket.se/) and prints a categorized delay report:
 
-- 🔴 **Severely delayed** — trains more than **60 minutes** late
-- 🟡 **Delayed** — trains more than **20 minutes** late (up to 59 min)
-- ⛔ **Cancelled** — trains that have been cancelled
+- **Severely delayed** — trains more than **60 minutes** late
+- **Delayed** — trains more than **20 minutes** late (up to 59 min)
+- **Cancelled** — trains that have been cancelled
 
 A summary push notification is also sent to your phone via [ntfy](https://ntfy.sh).
 

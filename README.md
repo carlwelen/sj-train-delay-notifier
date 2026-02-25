@@ -37,7 +37,7 @@ Launch app  →  Fetch from Trafikverket API  →  Print categorized report  →
 1. **Trafikverket API Key** — Register at [data.trafikverket.se](https://data.trafikverket.se/) to obtain a free API key
 2. **Notification service** — Install [ntfy](https://ntfy.sh)
 
-### Running
+### Running (Unix/Linux/macOS)
 
 ```bash
 # Set your Trafikverket API key
@@ -50,6 +50,8 @@ export NTFY_TOPIC="https://ntfy.sh/my-sj-alerts"
 javac -d out src/*.java
 java -cp out App
 ```
+
+> **Note:** Make sure you have a JDK (version 11 or later) installed. You can verify with `java -version` and `javac -version`.
 
 ### Station Codes
 
@@ -65,7 +67,7 @@ java -cp out App
 ```xml
 <REQUEST>
   <LOGIN authenticationkey="YOUR_API_KEY" />
-  <QUERY objecttype="TrainAnnouncement" orderby="AdvertisedTimeAtLocation">
+  <QUERY objecttype="TrainAnnouncement" schemaversion="1.9" orderby="AdvertisedTimeAtLocation">
     <FILTER>
       <AND>
         <EQ name="LocationSignature" value="Ek" />

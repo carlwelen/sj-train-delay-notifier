@@ -55,7 +55,7 @@ public class TrafikverketClient {
     private String buildQuery() {
         return "<REQUEST>"
                 + "<LOGIN authenticationkey=\"" + apiKey + "\" />"
-                + "<QUERY objecttype=\"TrainAnnouncement\" orderby=\"AdvertisedTimeAtLocation\">"
+                + "<QUERY objecttype=\"TrainAnnouncement\" schemaversion=\"1.9\" orderby=\"AdvertisedTimeAtLocation\">"
                 + "<FILTER><AND>"
                 + "<EQ name=\"LocationSignature\" value=\"Ek\" />"
                 + "<EQ name=\"ActivityType\" value=\"Avgang\" />"

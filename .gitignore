@@ -1,5 +1,6 @@
 # Compiled Java classes
 *.class
+out/
 
 # IDE project files
 .idea/

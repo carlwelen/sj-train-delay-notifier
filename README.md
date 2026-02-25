@@ -1,16 +1,21 @@
 # 🚆 SJ Train Delay Notifier
 
-Get push notifications on your phone whenever an SJ train from **Enköping C → Stockholm C** is delayed, late, or cancelled.
+Run once to get a categorized delay report for SJ trains from **Enköping C → Stockholm C**. No need to keep it running — just launch it when you want to check.
 
 ## Overview
 
-This project monitors real-time SJ train departures from Enköping C heading to Stockholm C using the [Trafikverket Open API](https://api.trafikinfo.trafikverket.se/). When a delay or cancellation is detected, a push notification is sent directly to your phone.
+This application fetches real-time SJ train departures from Enköping C to Stockholm C using the [Trafikverket Open API](https://api.trafikinfo.trafikverket.se/) and prints a categorized delay report:
+
+- 🔴 **Severely delayed** — trains more than **60 minutes** late
+- 🟡 **Delayed** — trains more than **20 minutes** late (up to 59 min)
+- ⛔ **Cancelled** — trains that have been cancelled
+
+A summary push notification is also sent to your phone via [ntfy](https://ntfy.sh).
 
 ## How It Works
 
 ```
-Trafikverket API  →  Monitor Script  →  Push Notification  →  Your Phone
-
+Launch app  →  Fetch from Trafikverket API  →  Print categorized report  →  Send notification  →  Exit
 ```
 
 ### Data Source
@@ -22,7 +27,7 @@ Trafikverket API  →  Monitor Script  →  Push Notification  →  Your Phone
   - `ToLocation` includes `"Cst"` (Stockholm Central)
   - `InformationOwner = "SJ"` (only SJ-operated trains)
 - **Detection:**
-  - **Delay:** `EstimatedTimeAtLocation` differs from `AdvertisedTimeAtLocation`
+  - **Delay:** `EstimatedTimeAtLocation` differs from `AdvertisedTimeAtLocation` by 20+ minutes
   - **Cancellation:** `Canceled = true`
 
 ## Getting Started

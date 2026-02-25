@@ -3,6 +3,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * Sends push notifications via ntfy (https://ntfy.sh).
@@ -37,27 +38,53 @@ public class NotificationService {
         }
     }
 
-    public void sendDelayNotification(TrainAnnouncement train, long delayMinutes) throws Exception {
-        String title = "\uD83D\uDE86 SJ Train Delayed";
-        String body = String.format(
-                "Train %s (Enköping C \u2192 Stockholm C) is delayed by %d minute(s).%n"
-                        + "Scheduled: %s  |  Expected: %s",
-                train.getTrainId(),
-                delayMinutes,
-                train.getAdvertisedTime().toLocalTime(),
-                train.getEstimatedTime().toLocalTime());
-        sendNotification(title, body);
-    }
+    /**
+     * Sends a summary notification for a categorized delay report.
+     */
+    public void sendSummaryNotification(DelayDetector.DelayReport report,
+                                         DelayDetector detector) throws Exception {
+        StringBuilder body = new StringBuilder();
 
-    public void sendCancellationNotification(TrainAnnouncement train) throws Exception {
-        String title = "\uD83D\uDE86 SJ Train Canceled";
-        String body = String.format(
-                "Train %s (Enköping C \u2192 Stockholm C) scheduled at %s has been cancelled.",
-                train.getTrainId(),
-                train.getAdvertisedTime().toLocalTime());
-        if (train.getDeviation() != null && !train.getDeviation().isBlank()) {
-            body += " Reason: " + train.getDeviation();
+        if (!report.getSeverelyDelayed().isEmpty()) {
+            body.append("🔴 SEVERELY DELAYED (60+ min):\n");
+            for (TrainAnnouncement t : report.getSeverelyDelayed()) {
+                long delay = detector.getDelayMinutes(t);
+                body.append(String.format("  Train %s | Scheduled: %s | Expected: %s | +%d min\n",
+                        t.getTrainId(),
+                        t.getAdvertisedTime().toLocalTime(),
+                        t.getEstimatedTime().toLocalTime(),
+                        delay));
+            }
+            body.append("\n");
         }
-        sendNotification(title, body);
+
+        if (!report.getModeratelyDelayed().isEmpty()) {
+            body.append("🟡 DELAYED (20–59 min):\n");
+            for (TrainAnnouncement t : report.getModeratelyDelayed()) {
+                long delay = detector.getDelayMinutes(t);
+                body.append(String.format("  Train %s | Scheduled: %s | Expected: %s | +%d min\n",
+                        t.getTrainId(),
+                        t.getAdvertisedTime().toLocalTime(),
+                        t.getEstimatedTime().toLocalTime(),
+                        delay));
+            }
+            body.append("\n");
+        }
+
+        if (!report.getCancelled().isEmpty()) {
+            body.append("⛔ CANCELLED:\n");
+            for (TrainAnnouncement t : report.getCancelled()) {
+                body.append(String.format("  Train %s | Scheduled: %s",
+                        t.getTrainId(),
+                        t.getAdvertisedTime().toLocalTime()));
+                if (t.getDeviation() != null && !t.getDeviation().isBlank()) {
+                    body.append(" | Reason: ").append(t.getDeviation());
+                }
+                body.append("\n");
+            }
+        }
+
+        String title = "\uD83D\uDE86 SJ Delay Report — Enköping C → Stockholm C";
+        sendNotification(title, body.toString().trim());
     }
 }
